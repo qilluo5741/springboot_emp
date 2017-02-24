@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>信息登录</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta name="keywords" content="Welcome to the Information Technology Growth Platform"/>
+		<link type="text/css" href="" th:href="@{/img/login.ico}" rel="shortcut icon"/>
+		<link type="text/css" href="" th:href="@{/css/styles3.css}" rel="stylesheet"/>
+		<script type="text/javascript" src="" th:src="@{/js/jquery-1.8.3.min.js}"></script>
+    </head>
+   	<body>
+		<h1>修改密码</h1>
+		<div class="main-agileinfo">
+			<h2>edit infor</h2>
+			<form action="" method="post">
+				<input type="password" name="oldPwd" class="name" id="name" placeholder="原密码"/>
+				<input type="password" name="newPwd" class="password" id="password" placeholder="新密码"/>
+			</form>
+			<input onclick="getslt()" type="button" value="修改密码"/>
+		</div>
+		<script type="text/javascript">
+		function getslt(){
+			$.ajax({
+				url:"member/updatePassword",
+				data:{"oldPwd":$("#name").val(),"newPwd":$("#password").val()},
+				type:'post',
+				success:function(res){
+				if(res.code=="200"){
+					//执行登录操作前 清空密码框
+    				$("#name").val("");
+    				$("#password").val("");
+					alert(res.message);
+				}else {
+					alert(res.message);
+				}
+				}
+			})
+		}
+	</script> 
+		<div class="footer-w3l"><p class="agile">Copyright &copy; 2016-2017 上海享泊信息科技有限公司</p></div>
+    </body>
+</html>

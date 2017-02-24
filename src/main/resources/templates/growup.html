@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+	  <title>员工信息</title>
+	  <link rel="stylesheet" href="" th:href="@{/css/01.css}" type="text/css" />
+	  <link rel="stylesheet" href="" th:href="@{/css/font-awesome.min.css}"  type="text/css" />
+	  <link rel="stylesheet" href="" th:href="@{/css/simple-line-icons.css}"  type="text/css" />
+	  <link rel="stylesheet" href="" th:href="@{/css/app.css}" type="text/css" />
+	  <link rel="stylesheet" href="" th:href="@{/css/base.css}" type="text/css" />
+	  <link rel="stylesheet" href="" th:href="@{/css/bootstrap.min.css}" type="text/css"/>
+	  <link rel="stylesheet" href="" th:href="@{/css/pagination.css}" type="text/css"/>
+	  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+      <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="" th:src="@{/js/jquery.pagination.js}"></script>
+	  <script type="text/javascript" th:inline="javascript">
+		//点击分页按钮以后触发的动作
+		function handlePaginationClick(new_page_index,pagination_container) {
+			window.location.href=encodeURI("/member/findMembers?pageIndex="+(new_page_index+1)+"&amp;medal="+$("#medal").val()+"&amp;isOnJob="+$("#isOnJob").val());
+		}
+		$(function(){
+  		$("#News-Pagination").pagination([[${pager.totalRecords}]],{
+		        items_per_page:8,//每页显示的数量
+		        current_page:[[${pager.pageIndex}]]-1,//当前页数
+		        num_display_entries:2,
+		        next_text:"下一页",
+		        prev_text:"上一页",
+		        maxentries:[[${pager.totalRecords}]],
+		        num_edge_entries:3,//总条目数
+		        callback:handlePaginationClick//回调函数
+			});
+		});
+	</script>
+</head>
+<body>
+   	<p style="font-size:26px;margin-left:480px;color:#5F9EA0">员工成长表</p>
+   		<div style="margin-left:900px;margin-top:10px">
+   			<select  id="isOnJob" style="width:210px;border-color:#5F9EA0;border-radius:2px;margin-left:15px;margin-top:10px;border:1px solid #E0E0E0;color:#5F9EA0;height:28px" >
+			  	<option  th:each="a,eStat:${abc}"  th:value="${a}" th:text="${a=='-1'?'全部':a=='0'?'否':'是'}" th:selected="${a == isOnJob}"></option>
+			</select>
+			<form class="navbar-form navbar-form-sm navbar-left shift" ui-shift="prependTo" data-target=".navbar-collapse" role="search" ng-controller="TypeaheadDemoCtrl">
+		          <div class="form-group">
+			            <div class="input-group">
+				              <input th:value="${medal}" id="medal" style="width:210px;" type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control input-sm bg-light no-border rounded padder" placeholder="勋章"/>
+			            </div>
+		          </div>
+	        </form>
+	         <div style="margin-top:10xp;margin-left:15px;">
+		          <span class="input-group-btn">
+	                	<button onclick="authorityi()" class="btn btn-sm bg-light rounded" style="width:210px;background:#B2DFEE">搜索<i class="fa fa-search"></i></button>
+	              </span>
+              </div>
+    	</div><br/>
+    	 <span th:text="${authority}" id="authority" style="display:none;"></span>
+		<table>
+			<thead>
+				<tr>
+					<th width="227px;">员工工号</th>
+					<th width="227px;">当年分数</th>
+					<th width="227px;">升级分数</th>
+					<th width="227px;">勋章</th>
+					<th width="227px;">是否在职</th>
+					<th width="227px;">权限</th>
+					<th width="227px;" class="opration">操作</th>
+				</tr>
+			</thead>
+			<tbody id="menview" align="center" th:remove="all-but-first">
+				<tr th:each="p:${pager.list}">
+					<td  th:text="${p.number}">员工工号</td>
+					<td  th:text="${p.nowgrade}">当年分数</td>
+					<td  th:text="${p.levelgrade}">升级分数</td>
+					<td  th:text="${p.medal}">勋章</td>
+					<td  th:text="${p.isonjob==1?'在职':'离职'}">是否在职</td>
+					<td  th:text="${p.authority==1?'管理员':'普通员工'}">权限</td>
+					<td class="opration"><a href="" th:href="@{/mation(number=${p.number},name=${p.name},medal=${p.medal},nowgrade=${p.nowgrade},levelgrade=${p.levelgrade},password=${p.password},authority=${p.authority},isonjob=${p.isonjob})}"  target="menuFrame" >修改</a>&nbsp;&nbsp;<a>添加</a>&nbsp;&nbsp;<a>删除</a></td>
+				</tr>
+			</tbody>
+		</table>
+		<div  style="margin-left:460px;">
+			<form id="supplierForm"  method="get" action="">
+				<div style="height:20px;" id="News-Pagination"></div>
+			</form>
+		</div>
+	<script type="text/javascript" th:inline="javascript">
+		function authorityi(){
+			window.location.href=encodeURI("/member/findMembers?pageIndex=1&amp;isOnJob="+$("#isOnJob").val()+"&amp;medal="+$("#medal").val());
+		}
+		$(function(){
+	         var authority=$("#authority").text();
+	         if(authority==0){
+       		    $(".opration").hide();
+	         }
+		});
+	</script>
+</body>
+</html>

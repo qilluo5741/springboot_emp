@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>mation</title>
+  <link rel="stylesheet" href="" th:href="@{/css/01.css}" type="text/css" />
+  <link rel="stylesheet" href="" th:href="@{/css/font.css}" type="text/css" />
+  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+  <style type="text/css">
+  	input {
+		border: none;
+		border:1px solid #E0E0E0;
+		color:#5F9EA0;
+		font-size:20px;
+		border-radius:6px;
+	}
+	label{
+		line-height:10%;
+		font-size:18px;
+	}
+	.plo{
+		font-size:36px;
+	}
+  </style>
+</head>
+<body>
+   	   <div align="center" style="margin-top:30px;">
+   	   	   <label class="plo">享泊员工信息</label><br/><br/><br/><br/>
+	       <label> 工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号 :&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="number" th:value="${number[0]}"/></label><br/><br/>
+	       <label> 姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名 :&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="name" th:value="${name[0]}"/></label><br/><br/>
+	       <label> 勋&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;章 :&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="medal" th:value="${medal[0]}"/></label><br/><br/>
+	       <label> 密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码 :&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="password" th:value="${password[0]}"/></label><br/><br/>
+	       <label> 当年分数 :&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="nowgrade" th:value="${nowgrade[0]}"/></label><br/><br/>
+	       <label> 是否管理 :
+	       <select  id="authority" style="width:240px;border-color:#5F9EA0;border-radius:2px;margin-left:15px;margin-top:10px;border:1px solid #E0E0E0;color:#5F9EA0;height:28px" >
+			  	<option value='1'>管理员</option>
+   				<option value='0'>普通员工</option>
+			</select></label><br/><br/>
+			<label> 是否在职 :
+			<select  id="isonjob" style="width:240px;border-color:#5F9EA0;border-radius:2px;margin-left:15px;margin-top:10px;border:1px solid #E0E0E0;color:#5F9EA0;height:28px" >
+			  	<option value='1'>在职</option>
+   				<option value='0'>离职</option>
+			</select></label><br/><br/>
+	       <label> 升级分数 :&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="levelgrade" th:value="${levelgrade[0]}"/></label><br/><br/><br/>
+	       <label><input onclick="updateMember()" type="button" name="" value="确认修改"/></label>
+       </div>
+		<input  th:value="${authority[0]}" id = "auth" style="display: none;"/>
+		<input  th:value="${isonjob[0]}" id = "job" style="display: none;"/>
+       <script type="text/javascript" th:inline="javascript">
+       $(function(){
+    	   var auth=$("#auth").val();
+    	   $('#authority option').each(function() {
+   	        if(auth.indexOf($(this).val()) == auth){
+   	            $(this).attr('selected',true);   
+   	        }
+   	    });
+    	   
+    	   var job = $("#job").val();
+    	   $('#isonjob option').each(function() {
+      	        if(job.indexOf($(this).val()) == job){
+      	            $(this).attr('selected',true);   
+      	        }
+      	    });
+    	   
+   	});
+       function updateMember(){
+			$.ajax({
+				url:"member/updateMember",
+				data:{"name":$("#name").val(),"number":$("#number").val(),"password":$("#password").val(),"nowgrade":$("#nowgrade").val(),"levelgrade":$("#levelgrade").val(),"medal":$("#medal").val(),"isonjob":$("#isonjob").val(),"authority":$("#authority").val()},
+				type:'post',
+				success:function(res){
+				if(res.code=="200"){
+				//执行登录操作前 清空密码框
+					alert(res.message);
+				window.location.href="member/findMembers";
+				}else {
+					alert(res.message);
+				}
+				}
+			})
+		}
+		</script>
+</body>
+</html>

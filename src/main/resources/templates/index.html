@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="utf-8"/>
+  <title>享泊科技</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <link type="text/css"  href="" th:href="@{/img/login.ico}" rel="shortcut icon"/>
+  <link rel="stylesheet" href="" th:href="@{/css/bootstrap.css}" type="text/css" />
+  <link rel="stylesheet" href="" th:href="@{/css/animate.css}" type="text/css" />
+  <link rel="stylesheet" href="" th:href="@{/css/font-awesome.min.css}"  type="text/css" />
+  <link rel="stylesheet" href="" th:href="@{/css/simple-line-icons.css}"  type="text/css" />
+  <link rel="stylesheet" href="" th:href="@{/css/font.css}" type="text/css" />
+  <link rel="stylesheet" href="" th:href="@{/css/app.css}" type="text/css" />
+  <link rel="stylesheet" href="" th:href="@{/css/01.css}" type="text/css" />
+</head>
+<body>
+  <div class="app app-header-fixed" id="app">
+    <div class="app-header navbar">
+      <div class="navbar-header bg-dark">
+        <button class="pull-right visible-xs dk" data-toggle="class:show" data-target=".navbar-collapse">
+          <i class="glyphicon glyphicon-cog"></i>
+        </button>
+        <button class="pull-right visible-xs" data-toggle="class:off-screen" data-target=".app-aside" ui-scroll="app">
+          <i class="glyphicon glyphicon-align-justify"></i>
+        </button>
+        <a href="#" class="navbar-brand text-lt">
+          <i class="fa fa-vimeo-square"></i>
+          <span class="hidden-folded m-l-xs">享泊科技</span>
+        </a>
+      </div>
+      <div class="collapse pos-rlt navbar-collapse box-shadow bg-white-only">
+        <div class="nav navbar-nav hidden-xs">
+          <a href="#" class="btn no-shadow navbar-btn" data-toggle="class:app-aside-folded" data-target=".app">
+            <i class="fa fa-dedent fa-bars text"></i>
+            <i class="fa fa-indent fa-bars text-active"></i>
+          </a>
+          <a href="" class="btn no-shadow navbar-btn" data-toggle="class:show" data-target="#aside-user">
+            <i class="icon-user fa fa-github-alt"></i>
+          </a>
+        </div>
+        <form class="navbar-form navbar-form-sm navbar-left shift" ui-shift="prependTo" data-target=".navbar-collapse" role="search" ng-controller="TypeaheadDemoCtrl">
+          <div class="form-group">
+            <div class="input-group">
+              <input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control input-sm bg-light no-border rounded padder" placeholder="Search..."/>
+              <span class="input-group-btn">
+                <button type="submit" class="btn btn-sm bg-light rounded"><i class="fa fa-search"></i></button>
+              </span>
+            </div>
+          </div>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+	            <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="icon-bell fa-fw"></i>
+	            <span class="badge badge-sm up bg-danger pull-right-xs">2</span></a>
+            </li>
+            <li class="dropdown">
+                <a th:href="@{/logout}"><span><i class="fa fa-sign-in"></i>&nbsp;退出</span></a>
+           </li>
+          <li class="dropdown">
+           	  <a href="#" data-toggle="dropdown" class="dropdown-toggle clear">
+         	  <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm"><img th:src="@{img/3.png}"/>
+              <i class="on md b-white bottom"></i> </span>
+              <span class="hidden-sm hidden-md" th:text="${number}"></span></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="app-aside hidden-xs bg-dark">
+      <div class="aside-wrap">
+        <div class="navi-wrap">
+          <div class="clearfix hidden-xs text-center hide" id="aside-user">
+            <div class="dropdown wrapper">
+              <a ui-sref="app.page.profile">
+                <span class="thumb-lg w-auto-folded avatar m-t-sm">
+                 <img th:src="@{img/3.png}" class="img-full"/>
+                </span>
+              </a>
+            </div>
+            <div class="line dk hidden-folded"></div>
+          </div>
+          <nav class="navi">
+          		<ul id="navb" class="nav layui-side-scroll">
+          		</ul>
+          </nav>
+			<!--     <div class="wrapper m-t">
+            <div class="text-center-folded">
+              <span class="pull-right pull-none-folded">60%</span>
+              <span class="hidden-folded">清除缓存</span>
+            </div>
+            <div class="progress progress-xxs m-t-sm dk">
+              <div class="progress-bar progress-bar-info" style="width:60%;">
+              </div>
+            </div>
+            <div class="text-center-folded">
+              <span class="pull-right pull-none-folded">35%</span>
+              <span class="hidden-folded">历史记录</span>
+            </div>
+            <div class="progress progress-xxs m-t-sm dk">
+              <div class="progress-bar progress-bar-primary" style="width: 35%;">
+              </div>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+     <div class="app-content">
+         <iframe src="home" name="menuFrame" id="menuFrame"></iframe>
+     </div>
+    </div>
+     <!-- jQuery -->
+  <script type="text/javascript" src="" th:src="@{/js/jquery.min.js}"></script>
+  <script type="text/javascript" src="" th:src="@{/js/bootstrap.js}"></script>
+  <script type="text/javascript" src="" th:src="@{/js/jquery-2.1.1.min.js}"></script>
+  <script type="text/javascript" src="" th:src="@{/js/jquery.js}"></script>   
+  <script type="text/javascript">
+	$(function(){
+		window.onload = function(){ 
+			$.ajax({
+				url:"member/getMenu",
+				type:"get",
+				success:function(data){
+					if(data.code==200){
+						//遍历集合
+						$(data.result).each(function(index,e){
+ 							var test="<li><a href="+e.url+" target="+e.target+">"+(e.icon)+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>"+(e.menuname)+"</span></a></li>";
+			                $("#navb").append(test).trigger("create");
+						})
+					}else{
+						alert(data.message);
+					}
+				}
+			});
+		} 
+	})
+</script>
+</body>
+</html>

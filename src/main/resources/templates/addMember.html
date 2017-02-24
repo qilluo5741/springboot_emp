@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>adjust</title>
+  <link rel="stylesheet" href="" th:href="@{/css/01.css}" type="text/css" />
+  <link rel="stylesheet" href="" th:href="@{/css/font.css}" type="text/css" />
+  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+  <style type="text/css">
+  	input {
+		border: none;
+		border:1px solid #E0E0E0;
+		color:#5F9EA0;
+		font-size:20px;
+		border-radius:6px;
+	}
+	label{
+		line-height:10%;
+		font-size:18px;
+	}
+	.plo{
+		font-size:36px;
+	}
+	.oplm{
+		width:240px;
+		border-color:#5F9EA0;
+		border-radius:2px;
+		margin-left:100px;
+		line-height:10%;
+		font-size:20px;
+		border: none;
+		border:1px solid #E0E0E0;
+		color:#5F9EA0;
+	}
+  </style>
+</head>
+<body>
+   	   <div align="center" style="margin-top:30px;">
+   	  	   <label class="plo">新增员工信息</label><br/><br/><br/><br/>
+   	   	   <label> 工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号 :&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="number"/></label><br/><br/>
+	       <label> 姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名 :&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="name"/></label><br/><br/>
+	       <label> 勋&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;章 :&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="medal"/></label><br/><br/>
+	       <label> 密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码 :&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" id="password"/></label><br/><br/>
+	       <label> 是否管理 :
+	       <select  id="authority" style="width:240px;border-color:#5F9EA0;border-radius:2px;margin-left:15px;margin-top:10px;border:1px solid #E0E0E0;color:#5F9EA0;height:28px" >
+			  	<option value='1'>管理员</option>
+   				<option value='0'>普通员工</option>
+			</select></label><br/><br/>
+			<label> 是否在职 :
+			<select  id="isonjob" style="width:240px;border-color:#5F9EA0;border-radius:2px;margin-left:15px;margin-top:10px;border:1px solid #E0E0E0;color:#5F9EA0;height:28px" >
+			  	<option value='1'>在职</option>
+   				<option value='0'>离职</option>
+			</select></label><br/><br/>
+	       <label><input onclick="addMember()" type="button" name="" value="确认添加"/></label>
+       </div>
+        <script type="text/javascript" th:inline="javascript">
+        function addMember(){
+			$.ajax({
+				url:"member/addMember",
+				data:{"number":$("#number").val(),"name":$("#name").val(),"medal":$("#medal").val(),"password":$("#password").val(),"authority":$("#authority").val(),"isonjob":$("#isonjob").val()},
+				type:'post',
+				success:function(res){
+				if(res.code=="200"){
+					//执行登录操作前 清空密码框
+					alert(res.message);
+					window.location.href="addMember";
+					}else {
+						alert(res.message);
+					}
+				}
+			})
+		}
+        </script>
+</body>
+</html>

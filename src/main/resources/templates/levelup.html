@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+	  <title>员工信息</title>
+	  <link rel="stylesheet" href="" th:href="@{/css/01.css}" type="text/css" />
+	  <link rel="stylesheet" href="" th:href="@{/css/font-awesome.min.css}"  type="text/css" />
+	  <link rel="stylesheet" href="" th:href="@{/css/simple-line-icons.css}"  type="text/css" />
+	  <link rel="stylesheet" href="" th:href="@{/css/app.css}" type="text/css" />
+	  <link rel="stylesheet" href="" th:href="@{/css/base.css}" type="text/css" />
+	  <link rel="stylesheet" href="" th:href="@{/css/bootstrap.min.css}" type="text/css"/>
+	  <link rel="stylesheet" href="" th:href="@{/css/pagination.css}" type="text/css"/>
+	  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+      <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="" th:src="@{/js/jquery.pagination.js}"></script>
+	  <script type="text/javascript" th:inline="javascript">
+		//点击分页按钮以后触发的动作
+		function handlePaginationClick(new_page_index,pagination_container) {
+			window.location.href=encodeURI("/updateHistory/findUpdateHistoryByMember?pageIndex="+(new_page_index+1)+"&amp;memberNumber="+$("#memberNumber").val()+"&amp;isOnJob="+$("#isOnJob").val());
+		}
+		$(function(){
+  		$("#News-Pagination").pagination([[${pager.totalRecords}]],{
+		        items_per_page:8,//每页显示的数量
+		        current_page:[[${pager.pageIndex}]]-1,//当前页数
+		        num_display_entries:2,
+		        next_text:"下一页",
+		        prev_text:"上一页",
+		        maxentries:[[${pager.totalRecords}]],
+		        num_edge_entries:3,//总条目数
+		        callback:handlePaginationClick//回调函数
+			});
+		});
+	</script>
+</head>
+<body>
+   	<p style="font-size:26px;margin-left:480px;color:#5F9EA0">员工升级记录表</p>
+   		<div style="margin-left:900px;margin-top:10px">
+			<form class="navbar-form navbar-form-sm navbar-left shift" ui-shift="prependTo" data-target=".navbar-collapse" role="search" ng-controller="TypeaheadDemoCtrl">
+		          <div class="form-group">
+			            <div class="input-group">
+				              <input th:value="${memberNumber}" id="memberNumber" type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control input-sm bg-light no-border rounded padder" placeholder="工号"/>
+			             	  <span class="input-group-btn">
+				                	<button onclick="handlePaginationCli();return false;" type="submit" class="btn btn-sm bg-light rounded" ><i class="fa fa-search"></i></button>
+				              </span>
+			            </div>
+		          </div>
+	        </form>
+        	<select onchange="handlePagination()" id="isOnJob" style="width:200px;border-color:#5F9EA0;border-radius:2px;margin-left:15px;margin-top:10px;border:1px solid #E0E0E0;color:#5F9EA0;height:28px" >
+			  	<option  th:each="a,eStat:${abc}"  th:value="${a}" th:text="${a=='-1'?'全部':a=='0'?'否':'是'}" th:selected="${a == isOnJob}"></option>
+			</select>
+    	</div><br/>
+		<table>
+			<thead>
+				<tr>
+					<th width="227px;">记录时间</th>
+					<th width="227px;">升级前勋章</th>
+					<th width="227px;">员工工号</th>
+				</tr>
+			</thead>
+			<tbody id="menview" align="center" th:remove="all-but-first">
+				<tr th:each="p:${pager.list}">
+					<td  th:text="${p.time}">记录时间</td>
+					<td  th:text="${p.updatemedal}">升级前勋章</td>
+					<td  th:text="${p.membernumber}">员工工号</td>
+				</tr>
+			</tbody>
+		</table>
+		<div  style="margin-left:460px;">
+			<form id="supplierForm"  method="get" action="">
+				<div style="height:20px;" id="News-Pagination"></div>
+			</form>
+		</div>
+		<script type="text/javascript" th:inline="javascript">
+			function handlePaginationCli(){
+				var memberNumber = $("#memberNumber").val();
+				window.location.href=encodeURI("/updateHistory/findUpdateHistoryByMember?memberNumber="+memberNumber);
+			}
+		</script>
+		<script type="text/javascript" th:inline="javascript">
+			function handlePagination(){
+				window.location.href=encodeURI("/updateHistory/findUpdateHistoryByMember?isOnJobF="+$("#isOnJob").val());
+			}
+		</script>
+</body>
+</html>
